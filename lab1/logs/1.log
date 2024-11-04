@@ -1,0 +1,818 @@
+# Ознакомьтесь с возможностями команды pwd c помощью команды man:
+
+PWD(1)                      General Commands Manual                     PWD(1)
+
+NNAAMMEE
+     ppwwdd – return working directory name
+
+SSYYNNOOPPSSIISS
+     ppwwdd [--LL | --PP]
+
+DDEESSCCRRIIPPTTIIOONN
+     The ppwwdd utility writes the absolute pathname of the current working
+     directory to the standard output.
+
+     Some shells may provide a builtin ppwwdd command which is similar or
+     identical to this utility.  Consult the builtin(1) manual page.
+
+     The options are as follows:
+
+     --LL      Display the logical current working directory.
+
+     --PP      Display the physical current working directory (all symbolic
+             links resolved).
+
+     If no options are specified, the --LL option is assumed.
+
+EENNVVIIRROONNMMEENNTT
+     Environment variables used by ppwwdd:
+
+     PWD      Logical current working directory.
+
+EEXXIITT SSTTAATTUUSS
+     The ppwwdd utility exits 0 on success, and >0 if an error occurs.
+
+EEXXAAMMPPLLEESS
+     Show current working directory with symbolic links resolved:
+
+           $ /bin/pwd -P
+           /usr/home/fernape
+
+     Show the logical current directory.  Then use file(1) to inspect the
+     _/_h_o_m_e directory:
+
+           $ /bin/pwd
+           /home/fernape
+           $ file /home
+           /home: symbolic link to usr/home
+
+SSEEEE AALLSSOO
+     builtin(1), cd(1), csh(1), realpath(1), sh(1), getcwd(3)
+
+SSTTAANNDDAARRDDSS
+     The ppwwdd utility conforms to IEEE Std 1003.1-2001 (“POSIX.1”).
+
+HHIISSTTOORRYY
+     The ppwwdd command appeared in Version 5 AT&T UNIX.
+
+BBUUGGSS
+     In csh(1) the command ddiirrss is always faster because it is built into that
+     shell.  However, it can give a different answer in the rare case that the
+     current directory or a containing directory was moved after the shell
+     descended into it.
+
+     The --LL option does not work unless the PWD environment variable is
+     exported by the shell.
+
+macOS 15.0                     October 24, 2020                     macOS 15.0
+
+
+---
+
+
+# Определите текущий каталог, в котором вы находитесь командой pwd:
+
+/Users/idbolshakov/projects/itmo-master/1st-sem/5devops-is-labs/lab1
+
+
+---
+
+
+# Ознакомьтесь с возможностями команды cd c помощью команды man:
+
+BUILTIN(1)                  General Commands Manual                 BUILTIN(1)
+
+NNAAMMEE
+     bbuuiillttiinn, !!, %%, .., ::, @@, [[, {{, }}, aalliiaass, aalllloocc, bbgg, bbiinndd, bbiinnddkkeeyy, bbrreeaakk,
+     bbrreeaakkssww, bbuuiillttiinnss, ccaassee, ccdd, cchhddiirr, ccoommmmaanndd, ccoommpplleettee, ccoonnttiinnuuee, ddeeffaauulltt,
+     ddiirrss, ddoo, ddoonnee, eecchhoo, eecchhoottcc, eelliiff, eellssee, eenndd, eennddiiff, eennddssww, eessaacc, eevvaall,
+     eexxeecc, eexxiitt, eexxppoorrtt, ffaallssee, ffcc, ffgg, ffiilleetteesstt, ffii, ffoorr, ffoorreeaacchh, ggeettooppttss,
+     gglloobb, ggoottoo, hhaasshh, hhaasshhssttaatt, hhiissttoorryy, hhuupp, iiff, jjoobbiidd, jjoobbss, kkiillll, lliimmiitt,
+     llooccaall, lloogg, llooggiinn, llooggoouutt, llss--FF, nniiccee, nnoohhuupp, nnoottiiffyy, oonniinnttrr, ppooppdd,
+     pprriinntteennvv, pprriinnttff, ppuusshhdd, ppwwdd, rreeaadd, rreeaaddoonnllyy, rreehhaasshh, rreeppeeaatt, rreettuurrnn,
+     sscchheedd, sseett, sseetteennvv, sseettttcc, sseettttyy, sseettvvaarr, sshhiifftt, ssoouurrccee, ssttoopp, ssuussppeenndd,
+     sswwiittcchh, tteellllttcc, tteesstt, tthheenn, ttiimmee, ttiimmeess, ttrraapp, ttrruuee, ttyyppee, uulliimmiitt, uummaasskk,
+     uunnaalliiaass, uunnccoommpplleettee, uunnhhaasshh, uunnlliimmiitt, uunnsseett, uunnsseetteennvv, uunnttiill, wwaaiitt,
+     wwhheerree, wwhhiicchh, wwhhiillee – shell built-in commands
+
+SSYYNNOOPPSSIISS
+     See the built-in command description in the appropriate shell manual
+     page.
+
+DDEESSCCRRIIPPTTIIOONN
+     Shell builtin commands are commands that can be executed within the
+     running shell's process.  Note that, in the case of csh(1) builtin
+     commands, the command is executed in a subshell if it occurs as any
+     component of a pipeline except the last.
+
+     If a command specified to the shell contains a slash ‘/’, the shell will
+     not execute a builtin command, even if the last component of the
+     specified command matches the name of a builtin command.  Thus, while
+     specifying “echo” causes a builtin command to be executed under shells
+     that support the eecchhoo builtin command, specifying “/bin/echo” or “./echo”
+     does not.
+
+     While some builtin commands may exist in more than one shell, their
+     operation may be different under each shell which supports them.  Below
+     is a table which lists shell builtin commands, the standard shells that
+     support them and whether they exist as standalone utilities.
+
+     Only builtin commands for the csh(1) and sh(1) shells are listed here.
+     Consult a shell's manual page for details on the operation of its builtin
+     commands.  Beware that the sh(1) manual page, at least, calls some of
+     these commands “built-in commands” and some of them “reserved words”.
+     Users of other shells may need to consult an info(1) page or other
+     sources of documentation.
+
+     Commands marked “No**” under _E_x_t_e_r_n_a_l do exist externally, but are
+     implemented as scripts using a builtin command of the same name.
+
+           _C_o_m_m_a_n_d           _E_x_t_e_r_n_a_l        csh(1)       sh(1)
+           !!                 No              No           Yes
+           %%                 No              Yes          No
+           ..                 No              No           Yes
+           ::                 No              Yes          Yes
+           @@                 No              Yes          Yes
+           [[                 Yes             No           Yes
+           {{                 No              No           Yes
+           }}                 No              No           Yes
+           aalliiaass             No**            Yes          Yes
+           aalllloocc             No              Yes          No
+           bbgg                No**            Yes          Yes
+           bbiinndd              No              No           Yes
+           bbiinnddkkeeyy           No              Yes          No
+           bbrreeaakk             No              Yes          Yes
+           bbrreeaakkssww           No              Yes          No
+           bbuuiillttiinn           No              No           Yes
+           bbuuiillttiinnss          No              Yes          No
+           ccaassee              No              Yes          Yes
+           ccdd                No**            Yes          Yes
+           cchhddiirr             No              Yes          Yes
+           ccoommmmaanndd           No**            No           Yes
+           ccoommpplleettee          No              Yes          No
+           ccoonnttiinnuuee          No              Yes          Yes
+           ddeeffaauulltt           No              Yes          No
+           ddiirrss              No              Yes          No
+           ddoo                No              No           Yes
+           ddoonnee              No              No           Yes
+           eecchhoo              Yes             Yes          Yes
+           eecchhoottcc            No              Yes          No
+           eelliiff              No              No           Yes
+           eellssee              No              Yes          Yes
+           eenndd               No              Yes          No
+           eennddiiff             No              Yes          No
+           eennddssww             No              Yes          No
+           eessaacc              No              No           Yes
+           eevvaall              No              Yes          Yes
+           eexxeecc              No              Yes          Yes
+           eexxiitt              No              Yes          Yes
+           eexxppoorrtt            No              No           Yes
+           ffaallssee             Yes             No           Yes
+           ffcc                No**            No           Yes
+           ffgg                No**            Yes          Yes
+           ffiilleetteesstt          No              Yes          No
+           ffii                No              No           Yes
+           ffoorr               No              No           Yes
+           ffoorreeaacchh           No              Yes          No
+           ggeettooppttss           No**            No           Yes
+           gglloobb              No              Yes          No
+           ggoottoo              No              Yes          No
+           hhaasshh              No**            No           Yes
+           hhaasshhssttaatt          No              Yes          No
+           hhiissttoorryy           No              Yes          No
+           hhuupp               No              Yes          No
+           iiff                No              Yes          Yes
+           jjoobbiidd             No              No           Yes
+           jjoobbss              No**            Yes          Yes
+           kkiillll              Yes             Yes          Yes
+           lliimmiitt             No              Yes          No
+           llooccaall             No              No           Yes
+           lloogg               No              Yes          No
+           llooggiinn             Yes             Yes          No
+           llooggoouutt            No              Yes          No
+           llss--FF              No              Yes          No
+           nniiccee              Yes             Yes          No
+           nnoohhuupp             Yes             Yes          No
+           nnoottiiffyy            No              Yes          No
+           oonniinnttrr            No              Yes          No
+           ppooppdd              No              Yes          No
+           pprriinntteennvv          Yes             Yes          No
+           pprriinnttff            Yes             No           Yes
+           ppuusshhdd             No              Yes          No
+           ppwwdd               Yes             No           Yes
+           rreeaadd              No**            No           Yes
+           rreeaaddoonnllyy          No              No           Yes
+           rreehhaasshh            No              Yes          No
+           rreeppeeaatt            No              Yes          No
+           rreettuurrnn            No              No           Yes
+           sscchheedd             No              Yes          No
+           sseett               No              Yes          Yes
+           sseetteennvv            No              Yes          No
+           sseettttcc             No              Yes          No
+           sseettttyy             No              Yes          No
+           sseettvvaarr            No              No           Yes
+           sshhiifftt             No              Yes          Yes
+           ssoouurrccee            No              Yes          No
+           ssttoopp              No              Yes          No
+           ssuussppeenndd           No              Yes          No
+           sswwiittcchh            No              Yes          No
+           tteellllttcc            No              Yes          No
+           tteesstt              Yes             No           Yes
+           tthheenn              No              No           Yes
+           ttiimmee              Yes             Yes          No
+           ttiimmeess             No              No           Yes
+           ttrraapp              No              No           Yes
+           ttrruuee              Yes             No           Yes
+           ttyyppee              No**            No           Yes
+           uulliimmiitt            No**            No           Yes
+           uummaasskk             No**            Yes          Yes
+           uunnaalliiaass           No**            Yes          Yes
+           uunnccoommpplleettee        No              Yes          No
+           uunnhhaasshh            No              Yes          No
+           uunnlliimmiitt           No              Yes          No
+           uunnsseett             No              Yes          Yes
+           uunnsseetteennvv          No              Yes          No
+           uunnttiill             No              No           Yes
+           wwaaiitt              No**            Yes          Yes
+           wwhheerree             No              Yes          No
+           wwhhiicchh             Yes             Yes          No
+           wwhhiillee             No              Yes          Yes
+
+SSEEEE AALLSSOO
+     csh(1), dash(1), echo(1), false(1), info(1), kill(1), login(1), nice(1),
+     nohup(1), printenv(1), printf(1), pwd(1), sh(1), test(1), time(1),
+     true(1), which(1), zsh(1)
+
+HHIISSTTOORRYY
+     The bbuuiillttiinn manual page first appeared in FreeBSD 3.4.
+
+AAUUTTHHOORRSS
+     This manual page was written by Sheldon Hearn <_s_h_e_l_d_o_n_h_@_F_r_e_e_B_S_D_._o_r_g>.
+
+macOS 15.0                     December 21, 2010                    macOS 15.0
+
+
+---
+
+
+# Перейдите в корневой каталог командой cd
+
+
+---
+
+
+# Ознакомьтесь с возможностями команды ls c помощью команды man:
+
+LS(1)                       General Commands Manual                      LS(1)
+
+NNAAMMEE
+     llss – list directory contents
+
+SSYYNNOOPPSSIISS
+     llss [--@@AABBCCFFGGHHIILLOOPPRRSSTTUUWWaabbccddeeffgghhiikkllmmnnooppqqrrssttuuvvwwxxyy11%%,,] [----ccoolloorr=_w_h_e_n]
+        [--DD _f_o_r_m_a_t] [_f_i_l_e _._._.]
+
+DDEESSCCRRIIPPTTIIOONN
+     For each operand that names a _f_i_l_e of a type other than directory, llss
+     displays its name as well as any requested, associated information.  For
+     each operand that names a _f_i_l_e of type directory, llss displays the names
+     of files contained within that directory, as well as any requested,
+     associated information.
+
+     If no operands are given, the contents of the current directory are
+     displayed.  If more than one operand is given, non-directory operands are
+     displayed first; directory and non-directory operands are sorted
+     separately and in lexicographical order.
+
+     The following options are available:
+
+     --@@      Display extended attribute keys and sizes in long (--ll) output.
+
+     --AA      Include directory entries whose names begin with a dot (‘_.’)
+             except for _. and _._..  Automatically set for the super-user unless
+             --II is specified.
+
+     --BB      Force printing of non-printable characters (as defined by
+             ctype(3) and current locale settings) in file names as \_x_x_x,
+             where _x_x_x is the numeric value of the character in octal.  This
+             option is not defined in IEEE Std 1003.1-2008 (“POSIX.1”).
+
+     --CC      Force multi-column output; this is the default when output is to
+             a terminal.
+
+     --DD _f_o_r_m_a_t
+             When printing in the long (--ll) format, use _f_o_r_m_a_t to format the
+             date and time output.  The argument _f_o_r_m_a_t is a string used by
+             strftime(3).  Depending on the choice of format string, this may
+             result in a different number of columns in the output.  This
+             option overrides the --TT option.  This option is not defined in
+             IEEE Std 1003.1-2008 (“POSIX.1”).
+
+     --FF      Display a slash (‘/’) immediately after each pathname that is a
+             directory, an asterisk (‘*’) after each that is executable, an at
+             sign (‘@’) after each symbolic link, an equals sign (‘=’) after
+             each socket, a percent sign (‘%’) after each whiteout, and a
+             vertical bar (‘|’) after each that is a FIFO.
+
+     --GG      Enable colorized output.  This option is equivalent to defining
+             CLICOLOR or COLORTERM in the environment and setting
+             ----ccoolloorr=_a_u_t_o.  (See below.)  This functionality can be compiled
+             out by removing the definition of COLORLS.  This option is not
+             defined in IEEE Std 1003.1-2008 (“POSIX.1”).
+
+     --HH      Symbolic links on the command line are followed.  This option is
+             assumed if none of the --FF, --dd, or --ll options are specified.
+
+     --II      Prevent --AA from being automatically set for the super-user.  This
+             option is not defined in IEEE Std 1003.1-2008 (“POSIX.1”).
+
+     --LL      Follow all symbolic links to final target and list the file or
+             directory the link references rather than the link itself.  This
+             option cancels the --PP option.
+
+     --OO      Include the file flags in a long (--ll) output.  This option is
+             incompatible with IEEE Std 1003.1-2008 (“POSIX.1”).  See
+             chflags(1) for a list of file flags and their meanings.
+
+     --PP      If argument is a symbolic link, list the link itself rather than
+             the object the link references.  This option cancels the --HH and
+             --LL options.
+
+     --RR      Recursively list subdirectories encountered.
+
+     --SS      Sort by size (largest file first) before sorting the operands in
+             lexicographical order.
+
+     --TT      When printing in the long (--ll) format, display complete time
+             information for the file, including month, day, hour, minute,
+             second, and year.  The --DD option gives even more control over the
+             output format.  This option is not defined in IEEE Std
+             1003.1-2008 (“POSIX.1”).
+
+     --UU      Use time when file was created for sorting or printing.  This
+             option is not defined in IEEE Std 1003.1-2008 (“POSIX.1”).
+
+     --WW      Display whiteouts when scanning directories.  This option is not
+             defined in IEEE Std 1003.1-2008 (“POSIX.1”).
+
+     --XX      When listing recursively, do not descend into directories that
+             would cross file system boundaries.  More specifically, this
+             option will prevent descending into directories that have a
+             different device number.
+
+     --aa      Include directory entries whose names begin with a dot (‘_.’).
+
+     --bb      As --BB, but use C escape codes whenever possible.  This option is
+             not defined in IEEE Std 1003.1-2008 (“POSIX.1”).
+
+     --cc      Use time when file status was last changed for sorting or
+             printing.
+
+     ----ccoolloorr=_w_h_e_n
+             Output colored escape sequences based on _w_h_e_n, which may be set
+             to either aallwwaayyss, aauuttoo, or nneevveerr.
+
+             aallwwaayyss will make llss always output color.  If TERM is unset or set
+             to an invalid terminal, then llss will fall back to explicit ANSI
+             escape sequences without the help of termcap(5).  aallwwaayyss is the
+             default if ----ccoolloorr is specified without an argument.
+
+             aauuttoo will make llss output escape sequences based on termcap(5),
+             but only if stdout is a tty and either the --GG flag is specified
+             or the COLORTERM environment variable is set and not empty.
+
+             nneevveerr will disable color regardless of environment variables.
+             nneevveerr is the default when neither ----ccoolloorr nor --GG is specified.
+
+             For compatibility with GNU coreutils, llss supports yyeess or ffoorrccee as
+             equivalent to aallwwaayyss, nnoo or nnoonnee as equivalent to nneevveerr, and ttttyy
+             or iiff--ttttyy as equivalent to aauuttoo.
+
+     --dd      Directories are listed as plain files (not searched recursively).
+
+     --ee      Print the Access Control List (ACL) associated with the file, if
+             present, in long (--ll) output.
+
+     --ff      Output is not sorted.  This option turns on --aa.  It also negates
+             the effect of the --rr, --SS and --tt options.  As allowed by IEEE Std
+             1003.1-2008 (“POSIX.1”), this option has no effect on the --dd, --ll,
+             --RR and --ss options.
+
+     --gg      This option has no effect.  It is only available for
+             compatibility with 4.3BSD, where it was used to display the group
+             name in the long (--ll) format output.  This option is incompatible
+             with IEEE Std 1003.1-2008 (“POSIX.1”).
+
+     --hh      When used with the --ll option, use unit suffixes: Byte, Kilobyte,
+             Megabyte, Gigabyte, Terabyte and Petabyte in order to reduce the
+             number of digits to four or fewer using base 2 for sizes.  This
+             option is not defined in IEEE Std 1003.1-2008 (“POSIX.1”).
+
+     --ii      For each file, print the file's file serial number (inode
+             number).
+
+     --kk      This has the same effect as setting environment variable
+             BLOCKSIZE to 1024, except that it also nullifies any --hh options
+             to its left.
+
+     --ll      (The lowercase letter “ell”.) List files in the long format, as
+             described in the _T_h_e _L_o_n_g _F_o_r_m_a_t subsection below.
+
+     --mm      Stream output format; list files across the page, separated by
+             commas.
+
+     --nn      Display user and group IDs numerically rather than converting to
+             a user or group name in a long (--ll) output.  This option turns on
+             the --ll option.
+
+     --oo      List in long format, but omit the group id.
+
+     --pp      Write a slash (‘/’) after each filename if that file is a
+             directory.
+
+     --qq      Force printing of non-graphic characters in file names as the
+             character ‘?’; this is the default when output is to a terminal.
+
+     --rr      Reverse the order of the sort.
+
+     --ss      Display the number of blocks used in the file system by each
+             file.  Block sizes and directory totals are handled as described
+             in _T_h_e _L_o_n_g _F_o_r_m_a_t subsection below, except (if the long format
+             is not also requested) the directory totals are not output when
+             the output is in a single column, even if multi-column output is
+             requested.  (--ll) format, display complete time information for
+             the file, including month, day, hour, minute, second, and year.
+             The --DD option gives even more control over the output format.
+             This option is not defined in IEEE Std 1003.1-2008 (“POSIX.1”).
+
+     --tt      Sort by descending time modified (most recently modified first).
+             If two files have the same modification timestamp, sort their
+             names in ascending lexicographical order.  The --rr option reverses
+             both of these sort orders.
+
+             Note that these sort orders are contradictory: the time sequence
+             is in descending order, the lexicographical sort is in ascending
+             order.  This behavior is mandated by IEEE Std 1003.2 (“POSIX.2”).
+             This feature can cause problems listing files stored with
+             sequential names on FAT file systems, such as from digital
+             cameras, where it is possible to have more than one image with
+             the same timestamp.  In such a case, the photos cannot be listed
+             in the sequence in which they were taken.  To ensure the same
+             sort order for time and for lexicographical sorting, set the
+             environment variable LS_SAMESORT or use the --yy option.  This
+             causes llss to reverse the lexicographical sort order when sorting
+             files with the same modification timestamp.
+
+     --uu      Use time of last access, instead of time of last modification of
+             the file for sorting (--tt) or long printing (--ll).
+
+     --vv      Force unedited printing of non-graphic characters; this is the
+             default when output is not to a terminal.
+
+     --ww      Force raw printing of non-printable characters.  This is the
+             default when output is not to a terminal.  This option is not
+             defined in IEEE Std 1003.1-2001 (“POSIX.1”).
+
+     --xx      The same as --CC, except that the multi-column output is produced
+             with entries sorted across, rather than down, the columns.
+
+     --yy      When the --tt option is set, sort the alphabetical output in the
+             same order as the time output.  This has the same effect as
+             setting LS_SAMESORT.  See the description of the --tt option for
+             more details.  This option is not defined in IEEE Std 1003.1-2001
+             (“POSIX.1”).
+
+     --%%      Distinguish dataless files and directories with a '%' character
+             in long (--ll) output, and don't materialize dataless directories
+             when listing them.
+
+     --11      (The numeric digit “one”.) Force output to be one entry per line.
+             This is the default when output is not to a terminal.
+
+     --,      (Comma) When the --ll option is set, print file sizes grouped and
+             separated by thousands using the non-monetary separator returned
+             by localeconv(3), typically a comma or period.  If no locale is
+             set, or the locale does not have a non-monetary separator, this
+             option has no effect.  This option is not defined in IEEE Std
+             1003.1-2001 (“POSIX.1”).
+
+     The --11, --CC, --xx, and --ll options all override each other; the last one
+     specified determines the format used.
+
+     The --cc, --uu, and --UU options all override each other; the last one
+     specified determines the file time used.
+
+     The --SS and --tt options override each other; the last one specified
+     determines the sort order used.
+
+     The --BB, --bb, --ww, and --qq options all override each other; the last one
+     specified determines the format used for non-printable characters.
+
+     The --HH, --LL and --PP options all override each other (either partially or
+     fully); they are applied in the order specified.
+
+     By default, llss lists one entry per line to standard output; the
+     exceptions are to terminals or when the --CC or --xx options are specified.
+
+     File information is displayed with one or more ⟨blank⟩s separating the
+     information associated with the --ii, --ss, and --ll options.
+
+   TThhee LLoonngg FFoorrmmaatt
+     If the --ll option is given, the following information is displayed for
+     each file: file mode, number of links, owner name, group name, number of
+     bytes in the file, abbreviated month, day-of-month file was last
+     modified, hour file last modified, minute file last modified, and the
+     pathname.  If the file or directory has extended attributes, the
+     permissions field printed by the --ll option is followed by a '@'
+     character.  Otherwise, if the file or directory has extended security
+     information (such as an access control list), the permissions field
+     printed by the --ll option is followed by a '+' character.  If the --%%
+     option is given, a '%' character follows the permissions field for
+     dataless files and directories, possibly replacing the '@' or '+'
+     character.
+
+     If the modification time of the file is more than 6 months in the past or
+     future, and the --DD or --TT are not specified, then the year of the last
+     modification is displayed in place of the hour and minute fields.
+
+     If the owner or group names are not a known user or group name, or the --nn
+     option is given, the numeric ID's are displayed.
+
+     If the file is a character special or block special file, the device
+     number for the file is displayed in the size field.  If the file is a
+     symbolic link the pathname of the linked-to file is preceded by “->”.
+
+     The listing of a directory's contents is preceded by a labeled total
+     number of blocks used in the file system by the files which are listed as
+     the directory's contents (which may or may not include _. and _._. and other
+     files which start with a dot, depending on other options).
+
+     The default block size is 512 bytes.  The block size may be set with
+     option --kk or environment variable BLOCKSIZE.  Numbers of blocks in the
+     output will have been rounded up so the numbers of bytes is at least as
+     many as used by the corresponding file system blocks (which might have a
+     different size).
+
+     The file mode printed under the --ll option consists of the entry type and
+     the permissions.  The entry type character describes the type of file, as
+     follows:
+
+           --     Regular file.
+           bb     Block special file.
+           cc     Character special file.
+           dd     Directory.
+           ll     Symbolic link.
+           pp     FIFO.
+           ss     Socket.
+           ww     Whiteout.
+
+     The next three fields are three characters each: owner permissions, group
+     permissions, and other permissions.  Each field has three character
+     positions:
+
+           1.   If rr, the file is readable; if --, it is not readable.
+
+           2.   If ww, the file is writable; if --, it is not writable.
+
+           3.   The first of the following that applies:
+
+                      SS     If in the owner permissions, the file is not
+                            executable and set-user-ID mode is set.  If in the
+                            group permissions, the file is not executable and
+                            set-group-ID mode is set.
+
+                      ss     If in the owner permissions, the file is
+                            executable and set-user-ID mode is set.  If in the
+                            group permissions, the file is executable and
+                            setgroup-ID mode is set.
+
+                      xx     The file is executable or the directory is
+                            searchable.
+
+                      --     The file is neither readable, writable,
+                            executable, nor set-user-ID nor set-group-ID mode,
+                            nor sticky.  (See below.)
+
+                These next two apply only to the third character in the last
+                group (other permissions).
+
+                      TT     The sticky bit is set (mode 1000), but not execute
+                            or search permission.  (See chmod(1) or
+                            sticky(7).)
+
+                      tt     The sticky bit is set (mode 1000), and is
+                            searchable or executable.  (See chmod(1) or
+                            sticky(7).)
+
+     The next field contains a plus (‘+’) character if the file has an ACL, or
+     a space (‘ ’) if it does not.  The llss utility does not show the actual
+     ACL unless the --ee option is used in conjunction with the --ll option.
+
+EENNVVIIRROONNMMEENNTT
+     The following environment variables affect the execution of llss:
+
+     BLOCKSIZE           If this is set, its value, rounded up to 512 or down
+                         to a multiple of 512, will be used as the block size
+                         in bytes by the --ll and --ss options.  See _T_h_e _L_o_n_g
+                         _F_o_r_m_a_t subsection for more information.
+
+     CLICOLOR            Use ANSI color sequences to distinguish file types.
+                         See LSCOLORS below.  In addition to the file types
+                         mentioned in the --FF option some extra attributes
+                         (setuid bit set, etc.) are also displayed.  The
+                         colorization is dependent on a terminal type with the
+                         proper termcap(5) capabilities.  The default “cons25”
+                         console has the proper capabilities, but to display
+                         the colors in an xterm(1), for example, the TERM
+                         variable must be set to “xterm-color”.  Other
+                         terminal types may require similar adjustments.
+                         Colorization is silently disabled if the output is
+                         not directed to a terminal unless the CLICOLOR_FORCE
+                         variable is defined or ----ccoolloorr is set to “always”.
+
+     CLICOLOR_FORCE      Color sequences are normally disabled if the output
+                         is not directed to a terminal.  This can be
+                         overridden by setting this variable.  The TERM
+                         variable still needs to reference a color capable
+                         terminal however otherwise it is not possible to
+                         determine which color sequences to use.
+
+     COLORTERM           See description for CLICOLOR above.
+
+     COLUMNS             If this variable contains a string representing a
+                         decimal integer, it is used as the column position
+                         width for displaying multiple-text-column output.
+                         The llss utility calculates how many pathname text
+                         columns to display based on the width provided.  (See
+                         --CC and --xx.)
+
+     LANG                The locale to use when determining the order of day
+                         and month in the long --ll format output.  See
+                         environ(7) for more information.
+
+     LSCOLORS            The value of this variable describes what color to
+                         use for which attribute when colors are enabled with
+                         CLICOLOR or COLORTERM.  This string is a
+                         concatenation of pairs of the format _f_b, where _f is
+                         the foreground color and _b is the background color.
+
+                         The color designators are as follows:
+
+                               aa     black
+                               bb     red
+                               cc     green
+                               dd     brown
+                               ee     blue
+                               ff     magenta
+                               gg     cyan
+                               hh     light grey
+                               AA     bold black, usually shows up as dark grey
+                               BB     bold red
+                               CC     bold green
+                               DD     bold brown, usually shows up as yellow
+                               EE     bold blue
+                               FF     bold magenta
+                               GG     bold cyan
+                               HH     bold light grey; looks like bright white
+                               xx     default foreground or background
+
+                         Note that the above are standard ANSI colors.  The
+                         actual display may differ depending on the color
+                         capabilities of the terminal in use.
+
+                         The order of the attributes are as follows:
+
+                               1.   directory
+                               2.   symbolic link
+                               3.   socket
+                               4.   pipe
+                               5.   executable
+                               6.   block special
+                               7.   character special
+                               8.   executable with setuid bit set
+                               9.   executable with setgid bit set
+                               10.  directory writable to others, with sticky
+                                    bit
+                               11.  directory writable to others, without
+                                    sticky bit
+                               12.  dataless file
+
+                         The default is "exfxcxdxbxegedabagacadah", i.e., blue
+                         foreground and default background for regular
+                         directories, black foreground and red background for
+                         setuid executables, etc.
+
+     LS_COLWIDTHS        If this variable is set, it is considered to be a
+                         colon-delimited list of minimum column widths.
+                         Unreasonable and insufficient widths are ignored
+                         (thus zero signifies a dynamically sized column).
+                         Not all columns have changeable widths.  The fields
+                         are, in order: inode, block count, number of links,
+                         user name, group name, flags, file size, file name.
+
+     LS_SAMESORT         If this variable is set, the --tt option sorts the
+                         names of files with the same modification timestamp
+                         in the same sense as the time sort.  See the
+                         description of the --tt option for more details.
+
+     TERM                The CLICOLOR and COLORTERM functionality depends on a
+                         terminal type with color capabilities.
+
+     TZ                  The timezone to use when displaying dates.  See
+                         environ(7) for more information.
+
+EEXXIITT SSTTAATTUUSS
+     The llss utility exits 0 on success, and >0 if an error occurs.
+
+EEXXAAMMPPLLEESS
+     List the contents of the current working directory in long format:
+
+           $ ls -l
+
+     In addition to listing the contents of the current working directory in
+     long format, show inode numbers, file flags (see chflags(1)), and suffix
+     each filename with a symbol representing its file type:
+
+           $ ls -lioF
+
+     List the files in _/_v_a_r_/_l_o_g, sorting the output such that the most
+     recently modified entries are printed first:
+
+           $ ls -lt /var/log
+
+CCOOMMPPAATTIIBBIILLIITTYY
+     The group field is now automatically included in the long listing for
+     files in order to be compatible with the IEEE Std 1003.2 (“POSIX.2”)
+     specification.
+
+LLEEGGAACCYY DDEESSCCRRIIPPTTIIOONN
+     In legacy mode, the --ff option does not turn on the --aa option and the --gg,
+     --nn, and --oo options do not turn on the --ll option.
+
+     Also, the --oo option causes the file flags to be included in a long (-l)
+     output; there is no --OO option.
+
+     When --HH is specified (and not overridden by --LL or --PP) and a file argument
+     is a symlink that resolves to a non-directory file, the output will
+     reflect the nature of the link, rather than that of the file.  In legacy
+     operation, the output will describe the file.
+
+     For more information about legacy mode, see compat(5).
+
+SSEEEE AALLSSOO
+     chflags(1), chmod(1), sort(1), xterm(1), localeconv(3), strftime(3),
+     strmode(3), compat(5), termcap(5), sticky(7), symlink(7)
+
+SSTTAANNDDAARRDDSS
+     With the exception of options --gg, --nn and --oo, the llss utility conforms to
+     IEEE Std 1003.1-2001 (“POSIX.1”) and IEEE Std 1003.1-2008 (“POSIX.1”).
+     The options --BB, --DD, --GG, --II, --TT, --UU, --WW, --ZZ, --bb, --hh, --ww, --yy and --, are
+     non-standard extensions.
+
+     The ACL support is compatible with IEEE Std 1003.2c (“POSIX.2c”) Draft 17
+     (withdrawn).
+
+HHIISSTTOORRYY
+     An llss command appeared in Version 1 AT&T UNIX.
+
+BBUUGGSS
+     To maintain backward compatibility, the relationships between the many
+     options are quite complex.
+
+     The exception mentioned in the --ss option description might be a feature
+     that was based on the fact that single-column output usually goes to
+     something other than a terminal.  It is debatable whether this is a
+     design bug.
+
+     IEEE Std 1003.2 (“POSIX.2”) mandates opposite sort orders for files with
+     the same timestamp when sorting with the --tt option.
+
+macOS 15.0                      August 31, 2020                     macOS 15.0
+
+
+---
+
+
+# Просмотрите содержимое корневого каталога командой ls:
+
+Applications
+Library
+System
+Users
+Volumes
+bin
+cores
+dev
+etc
+home
+opt
+private
+sbin
+tmp
+usr
+var
+
+
+---
+
+
