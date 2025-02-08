@@ -1,0 +1,4 @@
+services:
+  lab2:
+    image: 'ubuntu:latest'
+    command: 'ls'
