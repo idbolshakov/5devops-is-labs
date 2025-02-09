@@ -1,0 +1,12 @@
+# Удалите пользователя «sit2» вместе с его домашним каталогом.
+
+total 16
+drwxr-xr-x 1 root   root   4096 Feb  9 08:59 .
+drwxr-xr-x 1 root   root   4096 Feb  9 08:56 ..
+drwxr-x--- 2 sit    sit    4096 Feb  9 08:58 sit
+drwxr-x--- 2 ubuntu ubuntu 4096 Jan 27 02:19 ubuntu
+
+
+--- done ---
+
+
